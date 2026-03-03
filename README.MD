@@ -40,15 +40,9 @@ Tabela `cadastro` (campos relevantes):
 
 ## Screenshots
 
-### Tela principal e listagem
-
 ![Tela principal do CRUD](img/cadastro1.PNG)
 
-### Filtros e estados diferentes
-
 ![Tela com filtros aplicados](img/cadastro2.PNG)
-
-### Formulário de edição de colaborador
 
 ![Formulário de edição](img/cadastro3.PNG)
 
