@@ -10,7 +10,7 @@ Aplicação CRUD em PHP 8 com PDO e Tailwind CSS para gestão de colaboradores d
 - Filtro rápido por **Todos / Ativos / Inativos**.
 - Ações: visualizar, editar e excluir colaborador.
 
-## Modelo de dados principal
+## Modelo de dados no projeto
 
 Tabela `cadastro` (campos relevantes):
 
