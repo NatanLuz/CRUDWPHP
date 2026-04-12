@@ -1,5 +1,5 @@
 <?php 
-
+//aqui estamos começando o crud simples com o projeto 
 require('conexao.php');
 
 $nome = filter_input(INPUT_POST, 'nome', FILTER_DEFAULT);
