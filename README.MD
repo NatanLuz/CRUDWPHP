@@ -1,4 +1,4 @@
-# CRUD em PHP para gestão de colaboradores
+# CRUD em PHP voltado para gestão de colaboradores
 
 Aplicação CRUD em PHP 8 com PDO e Tailwind CSS para gestão de colaboradores de uma empresa, controlando **entrada (admissão)** e **saída (desligamento)**, com filtro por status (ativos/inativos).
 
