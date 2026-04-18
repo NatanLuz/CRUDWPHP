@@ -1,4 +1,4 @@
-# CRUD em PHP voltado para gestão de colaboradores
+# pROJETO EM PHP voltado para gestão de colaboradores.
 
 Aplicação CRUD em PHP para gestão de colaboradores de uma empresa, controlando **entrada (admissão)** e **saída (desligamento)**, com filtro por status (ativos/inativos).
 
