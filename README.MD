@@ -1,47 +1,146 @@
-# pROJETO EM PHP voltado para gestão de colaboradores.
+# Sistema de Gestão de Colaboradores em PHP
 
-Aplicação CRUD em PHP para gestão de colaboradores de uma empresa, controlando **entrada (admissão)** e **saída (desligamento)**, com filtro por status (ativos/inativos).
+Aplicação backend em PHP para gerenciamento de colaboradores, com controle de admissão e desligamento e status calculado dinamicamente com base em regras de negócio.
+
+---
+
+## Problema Resolvido
+
+O controle manual de colaboradores ativos e desligados pode gerar inconsistências, principalmente quando o status é armazenado diretamente no banco de dados e depende de atualização manual.
+
+Este projeto resolve esse problema ao centralizar a lógica de status na aplicação, garantindo consistência e eliminando redundância de informação.
+
+---
+
+## Solução Proposta
+
+A aplicação implementa um CRUD de colaboradores onde o status (**Ativo/Inativo**) não é armazenado como coluna no banco de dados, mas derivado dinamicamente a partir da presença ou ausência da `data_saida`.
+
+Essa abordagem:
+
+- reduz inconsistências
+- simplifica o modelo de dados
+- garante que o estado do colaborador reflita sempre a realidade
+
+---
 
 ## Funcionalidades
 
-- Cadastro de colaboradores com nome, sobrenome, setor e data de admissão.
-- Registro de desligamento por meio de data de saída e motivo.
-- Listagem de colaboradores com status calculado automaticamente (Ativo/Inativo).
-- Filtro rápido por **Todos / Ativos / Inativos**.
-- Ações: visualizar, editar e excluir colaborador.
+- Cadastro de colaboradores (admissão)
+- Registro de desligamento com data e motivo
+- Listagem de colaboradores com status calculado automaticamente
+- Filtro por status: **Todos / Ativos / Inativos**
+- Ações de visualização, edição e exclusão
 
-## Modelo de dados no projeto
+---
 
-Tabela `cadastro` (campos relevantes):
+## Regras de Negócio
 
-- `id` – chave primária.
-- `nome` – nome do colaborador.
-- `sobrenome` – sobrenome do colaborador.
-- `setor` – setor/departamento.
-- `data_admissao` – data de entrada na empresa.
-- `data_saida` – data de saída; quando `NULL`, o colaborador é considerado **ativo**.
-- `motivo_saida` – motivo do desligamento (opcional).
+- Um colaborador é considerado **Ativo** quando `data_saida` é `NULL`
+- Um colaborador é considerado **Inativo** quando `data_saida` está preenchida
+- O status não é armazenado, sendo sempre calculado em tempo de execução
+- O desligamento exige o preenchimento da data de saída
+- O filtro de listagem utiliza a mesma lógica de derivação
 
-> Regra de negócio: o status **não** é armazenado em coluna própria; ele é calculado pela aplicação com base em `data_saida` (nulo = Ativo, preenchido = Inativo).
+---
 
-## Fluxos principais
+## Modelo de Dados
 
-- **Cadastrar colaborador (entrada)** – em `index.php`:
-  - Preenche Nome, Sobrenome, Setor e Data de admissão (obrigatória).
-  - Campos Data de saída e Motivo da saída podem ficar vazios (colaborador permanece **ativo**).
+Tabela `cadastro`:
 
-- **Registrar saída (desligamento)** – em `editar.php`:
-  - Para um colaborador ativo, informar Data de saída e Motivo da saída.
-  - Ao salvar, a aplicação passa a considerar o colaborador **inativo**.
+- `id` - chave primária
+- `nome` - nome do colaborador
+- `sobrenome` - sobrenome
+- `setor` - departamento
+- `data_admissao` - data de entrada
+- `data_saida` - data de desligamento (`NULL` indica ativo)
+- `motivo_saida` - motivo do desligamento (opcional)
 
-- **Listar e filtrar** – em `index.php`:
-  - Lista todos os colaboradores com Nome, Setor, Status (Ativo/Inativo) e Data de saída.
-  - Permite filtrar por **Todos / Ativos / Inativos** via parâmetro `?status=`.
+---
+
+## Fluxos da Aplicação
+
+### Admissão de Colaborador
+
+- Realizado via `index.php`
+- Campos obrigatórios:
+  - Nome
+  - Sobrenome
+  - Setor
+  - Data de admissão
+- Resultado: colaborador cadastrado como **ativo**
+
+---
+
+### Registro de Desligamento
+
+- Realizado via `editar.php`
+- Preenchimento de:
+  - Data de saída
+  - Motivo da saída
+- Resultado: colaborador passa a ser **inativo**
+
+---
+
+### Listagem e Filtro
+
+- Exibida em `index.php`
+- Informações:
+  - Nome
+  - Setor
+  - Status (calculado)
+  - Data de saída
+
+Filtros disponíveis via query string:
+
+```text
+?status=todos
+?status=ativo
+?status=inativo
+```
+
+---
+
+## Estrutura do Projeto
+
+```text
+.
+├── index.php   # Cadastro, listagem e filtro
+├── editar.php  # Atualização e desligamento
+└── img/        # Screenshots da aplicação
+```
+
+---
+
+## Tecnologias Utilizadas
+
+- **PHP**: lógica de backend e manipulação de dados
+- **MySQL (ou similar)**: persistência de dados
+- **HTML/CSS**: interface básica
+
+---
+
+## Possíveis Melhorias
+
+- Validação de dados no backend
+- Uso de PDO com prepared statements
+- Separação em camadas (service/repository)
+- Paginação de resultados
+- Autenticação de usuários
+- Transformação em API REST
+
+---
 
 ## Screenshots
 
-![Tela principal do CRUD](img/cadastro1.PNG)
+![Tela principal](img/cadastro1.PNG)
+![Filtros aplicados](img/cadastro2.PNG)
+![Edição](img/cadastro3.PNG)
 
-![Tela com filtros aplicados](img/cadastro2.PNG)
+---
 
-![Formulário de edição](img/cadastro3.PNG)
+## Autor
+
+**Natan Da Luz**
+Desenvolvedor Backend PHP 
+Contato: natandaluz01@gmail.com
