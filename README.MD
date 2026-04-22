@@ -12,7 +12,7 @@ Este projeto resolve esse problema ao centralizar a lógica de status na aplica�
 
 ---
 
-## Solução Proposta
+## Solução Proposta Deste Projeto
 
 A aplicação implementa um CRUD de colaboradores onde o status (**Ativo/Inativo**) não é armazenado como coluna no banco de dados, mas derivado dinamicamente a partir da presença ou ausência da `data_saida`.
 
