@@ -1,97 +1,53 @@
-# Sistema de Gestão de Colaboradores em PHP
+# Sistema de Gestão de Colaboradores (PHP)
 
-Aplicação backend em PHP para gerenciamento de colaboradores, com controle de admissão e desligamento e status calculado dinamicamente com base em regras de negócio.
+## 📖 Sobre o projeto
 
----
+O **Sistema de Gestão de Colaboradores** é uma aplicação backend desenvolvida em PHP para controlar admissões, desligamentos e informações cadastrais de funcionários.
 
-## Problema Resolvido
+O projeto demonstra uma modelagem que evita armazenar informações redundantes no banco de dados. Em vez de manter uma coluna de status que dependeria de atualização manual, a aplicação determina se o colaborador está ativo ou inativo a partir do campo `data_saida`. Essa abordagem reduz inconsistências e mantém o estado exibido alinhado aos dados do desligamento.
 
-O controle manual de colaboradores ativos e desligados pode gerar inconsistências, principalmente quando o status é armazenado diretamente no banco de dados e depende de atualização manual.
+### Regras de negócio
 
-Este projeto resolve esse problema ao centralizar a lógica de status na aplicação, garantindo consistência e eliminando redundância de informação.
+- Quando `data_saida` é `NULL`, o colaborador é considerado **Ativo**;
+- quando `data_saida` possui uma data, o colaborador é considerado **Inativo**;
+- o status não é salvo no banco de dados;
+- o status é sempre calculado em tempo de execução;
+- o registro de desligamento exige uma data de saída;
+- o filtro da listagem utiliza a mesma regra de derivação do status.
 
----
+### Modelo de dados
 
-## Solução Proposta Deste Projeto
+Os colaboradores são armazenados na tabela `cadastro`, composta pelos seguintes campos:
 
-A aplicação implementa um CRUD de colaboradores onde o status (**Ativo/Inativo**) não é armazenado como coluna no banco de dados, mas derivado dinamicamente a partir da presença ou ausência da `data_saida`.
+| Campo | Descrição |
+| --- | --- |
+| `id` | Chave primária do registro |
+| `nome` | Nome do colaborador |
+| `sobrenome` | Sobrenome do colaborador |
+| `setor` | Setor ou departamento |
+| `data_admissao` | Data de entrada na empresa |
+| `data_saida` | Data de desligamento; `NULL` indica colaborador ativo |
+| `motivo_saida` | Motivo do desligamento, quando informado |
 
-Essa abordagem:
+## ✨ Funcionalidades
 
-- reduz inconsistências
-- simplifica o modelo de dados
-- garante que o estado do colaborador reflita sempre a realidade
+- Cadastro de colaboradores;
+- registro da data de admissão;
+- registro de desligamento com data e motivo da saída;
+- listagem dos colaboradores;
+- cálculo automático do status Ativo ou Inativo;
+- filtro por status: Todos, Ativos ou Inativos;
+- visualização dos dados cadastrados;
+- edição dos colaboradores;
+- exclusão de registros.
 
----
+### Fluxos principais
 
-## Funcionalidades
+O cadastro é realizado em `index.php` e exige nome, sobrenome, setor e data de admissão. Como não há data de saída nesse momento, o novo colaborador é apresentado como ativo.
 
-- Cadastro de colaboradores (admissão)
-- Registro de desligamento com data e motivo
-- Listagem de colaboradores com status calculado automaticamente
-- Filtro por status: **Todos / Ativos / Inativos**
-- Ações de visualização, edição e exclusão
+O desligamento é registrado em `editar.php` por meio do preenchimento da data de saída e, opcionalmente, do motivo. Após essa alteração, o status calculado passa a ser inativo.
 
----
-
-## Regras de Negócio
-
-- Um colaborador é considerado **Ativo** quando `data_saida` é `NULL`
-- Um colaborador é considerado **Inativo** quando `data_saida` está preenchida
-- O status não é armazenado, sendo sempre calculado em tempo de execução
-- O desligamento exige o preenchimento da data de saída
-- O filtro de listagem utiliza a mesma lógica de derivação
-
----
-
-## Modelo de Dados
-
-Tabela `cadastro`:
-
-- `id` - chave primária
-- `nome` - nome do colaborador
-- `sobrenome` - sobrenome
-- `setor` - departamento
-- `data_admissao` - data de entrada
-- `data_saida` - data de desligamento (`NULL` indica ativo)
-- `motivo_saida` - motivo do desligamento (opcional)
-
----
-
-## Fluxos da Aplicação
-
-### Admissão de Colaborador
-
-- Realizado via `index.php`
-- Campos obrigatórios:
-  - Nome
-  - Sobrenome
-  - Setor
-  - Data de admissão
-- Resultado: colaborador cadastrado como **ativo**
-
----
-
-### Registro de Desligamento
-
-- Realizado via `editar.php`
-- Preenchimento de:
-  - Data de saída
-  - Motivo da saída
-- Resultado: colaborador passa a ser **inativo**
-
----
-
-### Listagem e Filtro
-
-- Exibida em `index.php`
-- Informações:
-  - Nome
-  - Setor
-  - Status (calculado)
-  - Data de saída
-
-Filtros disponíveis via query string:
+A listagem fica disponível em `index.php` e apresenta nome, setor, status calculado e data de saída. Os filtros são aplicados pela query string:
 
 ```text
 ?status=todos
@@ -99,48 +55,94 @@ Filtros disponíveis via query string:
 ?status=inativo
 ```
 
----
+## 🖼️ Screenshots
 
-## Estrutura do Projeto
+### Tela principal
+
+![Tela principal do sistema](img/cadastro1.PNG)
+
+### Filtros aplicados
+
+![Listagem de colaboradores com filtros](img/cadastro2.PNG)
+
+### Edição de colaborador
+
+![Tela de edição de colaborador](img/cadastro3.PNG)
+
+## 🚀 Tecnologias
+
+- PHP para as regras da aplicação e o processamento no backend;
+- MySQL ou banco de dados compatível para persistência;
+- HTML para estruturar a interface;
+- CSS para apresentação visual.
+
+## ⚙️ Como executar
+
+### Pré-requisitos
+
+- PHP instalado ou um ambiente local como XAMPP, WAMP ou Laragon;
+- servidor Apache;
+- MySQL ou banco compatível;
+- Git.
+
+### Instalação
+
+1. Clone o repositório:
+
+```bash
+git clone <URL_DO_REPOSITORIO>
+```
+
+2. Mova ou clone a pasta do projeto para o diretório público do ambiente local:
+
+   - XAMPP: `htdocs`;
+   - WAMP: `www`;
+   - Laragon: `www`.
+
+3. Caso o projeto forneça um arquivo SQL, importe-o pelo gerenciador do banco de dados para criar a tabela `cadastro`.
+
+4. Configure no código a conexão com o banco, informando host, banco de dados, usuário e senha correspondentes ao ambiente local.
+
+5. Inicie os serviços Apache e MySQL pelo painel do XAMPP, WAMP ou Laragon.
+
+6. Acesse o projeto pelo navegador, ajustando o nome da pasta quando necessário:
+
+```text
+http://localhost/<PASTA_DO_PROJETO>/
+```
+
+## 📂 Estrutura do projeto
+
+O projeto possui dois arquivos PHP principais e um diretório dedicado às imagens da documentação:
 
 ```text
 .
-├── index.php   # Cadastro, listagem e filtro
-├── editar.php  # Atualização e desligamento
-└── img/        # Screenshots da aplicação
+├── index.php
+├── editar.php
+└── img/
+    ├── cadastro1.PNG
+    ├── cadastro2.PNG
+    └── cadastro3.PNG
 ```
 
----
+- `index.php`: cadastro, listagem e filtro dos colaboradores;
+- `editar.php`: edição dos dados e registro de desligamento;
+- `img/`: screenshots utilizados no README.
 
-## Tecnologias Utilizadas
+## 🌐 Deploy
 
-- **PHP**: lógica de backend e manipulação de dados
-- **MySQL (ou similar)**: persistência de dados
-- **HTML/CSS**: interface básica
+O projeto é uma aplicação PHP tradicional e pode ser hospedado em qualquer servidor compatível com PHP e MySQL, ou outro banco suportado pela configuração utilizada.
 
----
+Para uso local, a aplicação pode ser executada com XAMPP, WAMP ou Laragon. Em uma hospedagem remota, é necessário publicar os arquivos PHP, criar ou importar a estrutura do banco de dados e configurar as credenciais de conexão fornecidas pelo servidor.
 
-## Possíveis Melhorias
-
-- Validação de dados no backend
-- Uso de PDO com prepared statements
-- Separação em camadas (service/repository)
-- Paginação de resultados
-- Autenticação de usuários
-- Transformação em API REST
-
----
-
-## Screenshots
-
-![Tela principal](img/cadastro1.PNG)
-![Filtros aplicados](img/cadastro2.PNG)
-![Edição](img/cadastro3.PNG)
-
----
-
-## Autor
+## 👤 Autor
 
 **Natan Da Luz**
-Desenvolvedor Backend PHP 
-Contato: natandaluz01@gmail.com
+
+- LinkedIn: [linkedin.com/in/natandaluz](https://www.linkedin.com/in/natandaluz/)
+- Portfólio: [portfolionatan.vercel.app](https://portfolionatan.vercel.app/)
+- E-mail: [natandaluz01@gmail.com](mailto:natandaluz01@gmail.com)
+
+## 📄 Licença
+
+Este projeto está sem uma licença definida no momento.
