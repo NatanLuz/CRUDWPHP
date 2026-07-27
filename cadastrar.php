@@ -1,5 +1,5 @@
 <?php 
-//aqui estamos começando o crud simples com o projeto 
+// Criando nome, sobrenome, setor e data saida e admissao contendo também o motivo da saída
 require('conexao.php');
 
 $nome = filter_input(INPUT_POST, 'nome', FILTER_DEFAULT);
@@ -9,7 +9,7 @@ $data_admissao = filter_input(INPUT_POST, 'data_admissao', FILTER_DEFAULT);
 $data_saida = filter_input(INPUT_POST, 'data_saida', FILTER_DEFAULT);
 $motivo_saida = filter_input(INPUT_POST, 'motivo_saida', FILTER_DEFAULT);
 
-// validação de campos
+// validando campos
 
 if (!$nome || !$setor || !$data_admissao) {
     echo 'Nome, setor e data de admissão são obrigatórios.';
