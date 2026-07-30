@@ -6,7 +6,7 @@ O **Sistema de Gestão de Colaboradores** é uma aplicação backend desenvolvid
 
 O projeto demonstra uma modelagem que evita armazenar informações redundantes no banco de dados. Em vez de manter uma coluna de status que dependeria de atualização manual, a aplicação determina se o colaborador está ativo ou inativo a partir do campo `data_saida`. Essa abordagem reduz inconsistências e mantém o estado exibido alinhado aos dados do desligamento.
 
-### Regras de negócio
+## Regras de negócio
 
 - Quando `data_saida` é `NULL`, o colaborador é considerado **Ativo**;
 - quando `data_saida` possui uma data, o colaborador é considerado **Inativo**;
@@ -15,7 +15,7 @@ O projeto demonstra uma modelagem que evita armazenar informações redundantes 
 - o registro de desligamento exige uma data de saída;
 - o filtro da listagem utiliza a mesma regra de derivação do status.
 
-### Modelo de dados
+## Modelo de dados
 
 Os colaboradores são armazenados na tabela `cadastro`, composta pelos seguintes campos:
 
