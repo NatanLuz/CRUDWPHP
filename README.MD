@@ -1,6 +1,4 @@
-# Sistema de Gestão de Colaboradores (PHP)
-
-## 📖 Sobre o projeto
+# Sistema de Gestão de Colaboradores com PHP
 
 O **Sistema de Gestão de Colaboradores** é uma aplicação backend desenvolvida em PHP para controlar admissões, desligamentos e informações cadastrais de funcionários.
 
